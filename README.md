@@ -1,2 +1,4 @@
 # LearningSwift
-This is my repo of my steps in Swift 
+##This is my repository documenting my progress in Swift
+
+### Welcome to my Swift journey! This repository serves as a record of my steps in learning Swift, and I am utilizing the resource at https://www.hackingwithswift.com/100/swiftui for my learning.
