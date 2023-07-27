@@ -27,6 +27,10 @@ struct ContentView: View {
     @State private var correctAnswer = Int.random(in: 0...2)
     @State private var score = 0
     
+    @State private var animationAmount = 0.0
+    @State private var opaAmount = 1.0
+    
+    
     
     
     
@@ -60,6 +64,11 @@ struct ContentView: View {
                         Button {
                             flagTapped(number)
                             actualTapped = number
+                            withAnimation{
+                                animationAmount += 360.0
+                                opaAmount = 0.5
+                            }
+                            
                             
                         }label:{
                             
@@ -69,6 +78,9 @@ struct ContentView: View {
 //                                .clipShape(Capsule())
 //                                .shadow(radius: 5)
                         }
+                        .rotation3DEffect(.degrees(actualTapped == number ?  animationAmount : 0), axis: (x: 0, y: 1, z: 0))
+                        .opacity(actualTapped != number ? opaAmount : 1)
+                        .scaleEffect(actualTapped != number ? opaAmount : 1)
                     }
                 }.frame(maxWidth: .infinity)
                     .padding(.vertical, 20)
@@ -129,6 +141,7 @@ struct ContentView: View {
     func askQuestion(){
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        opaAmount = 1.0
     }
     func reset(){
         numOfRound = 1
