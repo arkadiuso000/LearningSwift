@@ -31,7 +31,6 @@ struct ContentView: View {
         }
     }
     
-    
     var body: some View {
         ZStack{
             VStack{
@@ -61,8 +60,6 @@ struct ContentView: View {
                                 Stepper("\(questionNum.formatted())", value: $questionNum, in: 5...20, step: 5)
                             }
                         }
-                        
-
                         
                         
                     }//end of form
