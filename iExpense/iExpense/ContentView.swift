@@ -8,8 +8,8 @@
 import SwiftUI
 
 class User: ObservableObject {
-    @Published var firstname = "Bilbo"
-    @Published var lastname = "Baggins"
+    @Published var firstname = "(k)Opel"
+    @Published var lastname = "Astra"
     
 }
 
@@ -56,12 +56,28 @@ struct ThirdView: View {
     }
 }
 
+struct FourthView: View {
+    
+//    @State private var tapCount = UserDefaults.standard.integer(forKey: "Tap") //wersja 2
+    @AppStorage("Tap") private var tapCount = 0
+    var body: some View {
+        Button("Tap count: \(tapCount)"){
+            tapCount += 1
+//            UserDefaults.standard.set(tapCount, forKey: "Tap") //wersja 2
+        }
+    }
+}
+
 struct ContentView: View {
     @StateObject var user = User()
     
     @State private var showingSheet = false
     
     @State private var showingSheet2 = false
+    
+    @State private var showingSheet3 = false
+
+    
     
     var body: some View {
         VStack {
@@ -83,6 +99,13 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showingSheet2) {
                 ThirdView()
+            }
+            
+            Button ("Show sheet3"){
+                showingSheet3.toggle()
+            }
+            .sheet(isPresented: $showingSheet3) {
+                FourthView()
             }
         }
         .padding()
