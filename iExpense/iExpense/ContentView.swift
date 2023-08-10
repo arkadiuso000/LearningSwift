@@ -13,8 +13,21 @@ class User: ObservableObject {
     
 }
 
+struct SecondView: View {
+    let name: String
+    
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        Text("hello, \(name)")
+        Button("Dismiss"){dismiss()}
+    }
+}
+
 struct ContentView: View {
     @StateObject var user = User()
+    
+    @State private var showingSheet = false
     var body: some View {
         VStack {
             Text("Your name is \(user.firstname) \(user.lastname)")
@@ -22,6 +35,13 @@ struct ContentView: View {
             
             TextField("First name", text: $user.firstname)
             TextField("Last name", text: $user.lastname)
+            
+            Button ("Show sheet"){
+                showingSheet.toggle()
+            }
+            .sheet(isPresented: $showingSheet) {
+                SecondView(name: user.firstname)
+            }
         }
         .padding()
     }
