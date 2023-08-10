@@ -13,6 +13,8 @@ class User: ObservableObject {
     
 }
 
+
+
 struct SecondView: View {
     let name: String
     
@@ -68,6 +70,48 @@ struct FourthView: View {
     }
 }
 
+
+
+struct BetterUser: Codable {
+    var firstname: String
+    var lastname: String
+    var age: Int
+}
+
+struct FivthView: View {
+    @State private var user = BetterUser(firstname: "Taylor", lastname: "Swift", age: 29)
+    @FocusState private var answerIsFocused: Bool
+    var body: some View {
+        VStack{
+            Form{
+                Text("Enter your name")
+                    .font(.headline)
+                    
+                TextField("Name", text: $user.firstname)
+                Text("Enter your lastname")
+                    .font(.headline)
+                TextField("Lastname", text: $user.lastname)
+                Text("Enter your age")
+                    .font(.headline)
+                TextField("Age", value: $user.age, format: .number)
+                    .keyboardType(.numberPad) //.numberPad to to samo ale bez kropki
+                    .focused($answerIsFocused)
+                    .onAppear {
+                        UITextField.appearance().clearButtonMode = .whileEditing
+                    }
+            }
+            
+            Button("Save User",  role: .cancel){
+                let encoder = JSONEncoder()
+                
+                if let data = try? encoder.encode(user){
+                    UserDefaults.standard.set(data, forKey: "UserData")
+                }
+            }
+        }
+    }
+}
+
 struct ContentView: View {
     @StateObject var user = User()
     
@@ -76,6 +120,8 @@ struct ContentView: View {
     @State private var showingSheet2 = false
     
     @State private var showingSheet3 = false
+    
+    @State private var showingSheet4 = false
 
     
     
@@ -106,6 +152,13 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showingSheet3) {
                 FourthView()
+            }
+            
+            Button ("Show sheet4"){
+                showingSheet4.toggle()
+            }
+            .sheet(isPresented: $showingSheet4) {
+                FivthView()
             }
         }
         .padding()
