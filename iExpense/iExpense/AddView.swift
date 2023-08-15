@@ -12,7 +12,7 @@ struct AddView: View {
     @Environment(\.dismiss) var dismiss
     
     @State private var name = ""
-    @State private var type = ""
+    @State private var type = "Personal"
     @State private var amount = 0.0
     
     let types = ["Business", "Personal"]
@@ -27,7 +27,7 @@ struct AddView: View {
                     }
                 }
                 
-                TextField("Amount", value: $amount, format: .currency(code: "USD"))
+                TextField("Amount", value: $amount, format: .currency(code: Locale.current.currency?.identifier ?? "PLN"))
                     .keyboardType(.decimalPad)
             }
             .navigationTitle("Add new expense")
